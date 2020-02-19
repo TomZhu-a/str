@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StringTrim</title>
+    <script src="./clipboard.min.js"></script>
+    <style>
+        body,div,p,h2{
+            padding: 0;
+            margin: 0;
+            font-family: Simsun;
+        }
+        button{
+            outline:none;
+        }
+        body{
+            background: url("https://cn.bing.com/th?id=OHR.TaikanCrane_ZH-CN3416122324_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp");
+        }
+        #app{
+            background-color: aliceblue;
+            width: 600px;
+            margin: 50px auto;
+            padding: 25px;
+        }
+        button{
+            width: 150px;
+            height: 50px;
+            border-radius: 5px;
+            color: #111;
+            margin-bottom: 5px;
+        }
+        #clear{
+            background-color: lightseagreen;
+        }
+        #copy{
+            background-color: lightgreen;
+        }
+        .info{
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+		<h2>空格清理</h2><br>
+        <textarea id="input" placeholder="在这里输入文本..." cols="80" rows="15"></textarea>
+        <button id="clear">清空内容</button>
+        <button id="copy" class="btn" data-clipboard-target="#output">复制到剪切板</button>
+        <p class="info">去除空格后的文本:</p>
+        <textarea name="" id="output" cols="80" rows="15"></textarea>
+    </div>
+    <script>
+        let clipboard = new Clipboard('.btn');
+        let Oinput = document.getElementById('input')
+        let Ooutput = document.getElementById('output')
+        let Oclear = document.getElementById('clear')
+        
+        Oinput.oninput = function(){
+            let i = Oinput.value
+            let text = i.replace(/\s+/g,"")
+            Ooutput.value = text
+        }
+        Oclear.onclick = function(){
+            Oinput.value = ""
+            Ooutput.value  = ""
+        }
+    </script>
+</body>
+</html>

@@ -60,12 +60,22 @@
             let i = Oinput.value
             let text = i.replace(/[\n].+[Kindle 版本.]/ ,"")// 替换kindle后缀
             text = text.replace(/\s+/g, "")// 去除所有非字符(空格,换行等)
-            text = text.replace(/[（]/g, "\n（")
-            text = text.replace(/[①]/g, "\n① ")
-            text = text.replace(/[②]/g, "\n② ")
-            text = text.replace(/[③]/g, "\n③ ")
+            text = text.replace(/[（]/g, "\n（") // 给所有()前加换行
+            
+            //给所有序号前加换行
+            let reg = /[①-⑩]/g // 匹配序号的正则规则
+            let newText = '' //新字符串
+
+            for (let i=0; i<text.length; i++){
+            	// 遍历字符串, 有序号就在前面加换行
+            	if(reg.test(text[i])){
+            		newText += "\n"+text[i]
+            	} else {
+            		newText += text[i]
+            	}
+            }
            
-            Ooutput.value = text
+            Ooutput.value = newText
         }
         Oclear.onclick = function(){
             Oinput.value = ""

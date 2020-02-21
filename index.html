@@ -58,7 +58,13 @@
         
         Oinput.oninput = function(){
             let i = Oinput.value
-            let text = i.replace(/\s+/g,"")
+            let text = i.replace(/[\n].+[Kindle 版本.]/ ,"")// 替换kindle后缀
+            text = text.replace(/\s+/g, "")// 去除所有非字符(空格,换行等)
+            text = text.replace(/[（]/g, "\n（")
+            text = text.replace(/[①]/g, "\n① ")
+            text = text.replace(/[②]/g, "\n② ")
+            text = text.replace(/[③]/g, "\n③ ")
+           
             Ooutput.value = text
         }
         Oclear.onclick = function(){

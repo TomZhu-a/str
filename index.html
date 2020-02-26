@@ -12,8 +12,10 @@
             font-family: Simsun;
         }
         button{
-            outline:none;
+            outline: none;
+            border: 1px solid #ccc;
         }
+
         body{
             background: url("https://cn.bing.com/th?id=OHR.TaikanCrane_ZH-CN3416122324_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp");
         }
@@ -28,7 +30,15 @@
             height: 50px;
             border-radius: 5px;
             color: #111;
-            margin-bottom: 5px;
+            margin: 5px;
+        }
+        #clear:hover{
+            background: green;
+            color: #fff;
+        }
+        #copy:hover{
+            background: skyblue;
+            color: #fff;
         }
         #clear{
             background-color: lightseagreen;
@@ -36,21 +46,30 @@
         #copy{
             background-color: lightgreen;
         }
-        .info{
+        #output{
+            margin-top: 5px;
+        }
+        footer p{
+            text-align: center;
+            margin: 10px;
+        }
+        footer p a{
             font-size: 12px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <div id="app">
 		<h2>空格清理</h2><br>
-        <textarea id="input" placeholder="在这里输入文本..." cols="80" rows="15"></textarea>
+        <textarea id="input" placeholder="输入或粘贴文本..." cols="80" rows="15"></textarea>
         <button id="clear">清空内容</button>
         <button id="copy" class="btn" data-clipboard-target="#output">复制到剪切板</button>
-        <p class="info">去除空格后的文本:</p>
-        <textarea name="" id="output" cols="80" rows="15"></textarea>
+        <textarea id="output" cols="80" rows="15" placeholder="这里会显示去除空格后的文本..."></textarea>
     </div>
+    <footer><p>&copy;CopyRight 2020 nanqic <a href="https://github.com/nanqic/str">更多</a></p></footer>
     <script>
+
         let clipboard = new Clipboard('.btn');
         let Oinput = document.getElementById('input')
         let Ooutput = document.getElementById('output')
@@ -60,26 +79,46 @@
             let i = Oinput.value
             let text = i.replace(/[\n].+[Kindle 版本.]/ ,"")// 替换kindle后缀
             text = text.replace(/\s+/g, "")// 去除所有非字符(空格,换行等)
-            text = text.replace(/[（]/g, "\n（") // 给所有()前加换行
-            
+            // text = text.replace(/（1）/g, `\n***（1）`)
+            // 给所有(数字)前加换行
+            for(let i=1;i<9;i++){
+                // 正则中//内不解析变量
+                text = text.replace(`（${i}）`, `\n（${i}）`)
+            }
+
             //给所有序号前加换行
             let reg = /[①-⑩]/g // 匹配序号的正则规则
             let newText = '' //新字符串
-
             for (let i=0; i<text.length; i++){
-            	// 遍历字符串, 有序号就在前面加换行
-            	if(reg.test(text[i])){
+            	// 遍历字符串, 有序号就在前面加换行reg.test(text[i]) ||
+            	if( reg.test(text[i])){
             		newText += "\n"+text[i]
             	} else {
             		newText += text[i]
             	}
             }
-           
             Ooutput.value = newText
         }
+        // 点击清空按钮时, 调用清空函数
         Oclear.onclick = function(){
+            cl()
+        }
+        // 清空函数
+        function cl(){
             Oinput.value = ""
             Ooutput.value  = ""
+        }
+        // 双击输入框, 同意清空内容
+        Oinput.ondblclick = function(){
+            cl()
+        }
+        // 双击下面的输出框, 复制内容
+        Ooutput.ondblclick = function(){
+            document.getElementById('copy').click()
+            document.addEventListener('paste', function (evt) {
+  clipdata = evt.clipboardData || window.clipboardData;
+  console.log(clipdata.getData('text/plain'));
+});
         }
     </script>
 </body>

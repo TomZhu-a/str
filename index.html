@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StringTrim</title>
-    <script src="./clipboard.min.js"></script>
+    <script src="./js/clipboard.min.js"></script>
     <style>
         body,div,p,h2{
             padding: 0;
@@ -61,10 +61,10 @@
 </head>
 <body>
     <div id="app">
-		<h2>空格清理</h2><br>
+		<h2>空格清理 / <a href="./reverse/">文本反转</a></h2><br>
         <textarea id="input" placeholder="输入或粘贴文本..." cols="80" rows="15"></textarea>
         <button id="clear">清空内容</button>
-        <button id="copy" class="btn" data-clipboard-target="#output">复制到剪切板</button>
+        <button id="copy" class="btn" data-clipboard-target="#output">复制内容</button>
         <textarea id="output" cols="80" rows="15" placeholder="这里会显示去除空格后的文本..."></textarea>
     </div>
     <footer><p>&copy;CopyRight 2020 nanqic <a href="https://github.com/nanqic/str">更多</a></p></footer>
@@ -115,10 +115,6 @@
         // 双击下面的输出框, 复制内容
         Ooutput.ondblclick = function(){
             document.getElementById('copy').click()
-            document.addEventListener('paste', function (evt) {
-  clipdata = evt.clipboardData || window.clipboardData;
-  console.log(clipdata.getData('text/plain'));
-});
         }
     </script>
 </body>
